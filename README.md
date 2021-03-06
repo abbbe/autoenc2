@@ -64,6 +64,11 @@ Project Organization
     └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
 
 
+## Resources 
+
+Curating a list of AutoML-related research, tools, projects and other resources
+https://github.com/windmaple/awesome-AutoML
+
 --------
 
 <p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
