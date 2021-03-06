@@ -32,7 +32,8 @@ def load_dataset(env_name, dataset_name):
 
 
 def load_datasets(env_name):
-    train = load_dataset(env_name, 'linspaced_500')
+    #train = load_dataset(env_name, 'linspaced_500')
+    train = load_dataset(env_name, 'linspaced_100')
     test = load_dataset(env_name, 'rand_1000')
     grid = load_dataset(env_name, 'grid_100_1000')
 

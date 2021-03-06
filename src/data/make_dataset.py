@@ -92,7 +92,7 @@ def generate_and_save(gen_method, params, env, env_name, name_template):
 @click.command()
 # @click.argument('input_filepath', type=click.Path(exists=True))
 # @click.argument('output_filepath', type=click.Path())
-@click.option('--linspaced_steps', default=500, type=click.IntRange(min=1))
+@click.option('--linspaced_steps', default=100, type=click.IntRange(min=1))
 @click.option('--rand_count', default=1000, type=click.IntRange(min=1))
 @click.option('--grid_steps1', default=100, type=click.IntRange(min=1))
 @click.option('--grid_steps2', default=1000, type=click.IntRange(min=1))
