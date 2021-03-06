@@ -8,8 +8,7 @@ import numpy as np
 
 from src.config import processed_data_dir, project_dir
 from src.data.dataset import save_dataset
-
-from src.envs.myenv import TwoBallsEnv
+from src.envs import get_env_names, load_env
 
 logger = logging.getLogger(__name__)
 
@@ -82,7 +81,8 @@ def generate_and_save(gen_method, params, env, env_name, name_template):
 
     angles = gen_method(params)
     n_datapoints = angles.shape[0]
-    logger.info("Generating '%d' datapoints for '%s' ..." % (n_datapoints, dataset_name))
+    logger.info("Generating '%d' datapoints for '%s' ..." %
+                (n_datapoints, dataset_name))
 
     images = generate_images(env, angles)
 
@@ -96,21 +96,18 @@ def generate_and_save(gen_method, params, env, env_name, name_template):
 @click.option('--rand_count', default=1000, type=click.IntRange(min=1))
 @click.option('--grid_steps1', default=100, type=click.IntRange(min=1))
 @click.option('--grid_steps2', default=1000, type=click.IntRange(min=1))
-@click.argument('env_name', type=click.Choice(['twoballs', 'gymarm']), required=True)
+@click.argument('env_name', type=click.Choice(get_env_names()), required=True)
 def main(env_name, linspaced_steps, rand_count, grid_steps1, grid_steps2):
     """ Generates angles/images datasets for given env
     """
-    if env_name == 'twoballs':
-        env = TwoBallsEnv()
-    elif env_name == 'gymarm':
-        env = ArmRobotEnv()
-    else:
-        raise NotImplementedError()
+    env = load_env(env_name)
 
     generate_and_save(generate_linspaced_angles, {
-                      'N': linspaced_steps}, env, 'linspaced_{N}')
+                      'N': linspaced_steps},
+                      env, env_name, 'linspaced_{N}')
     generate_and_save(generate_grid_angles, {
-                      'N1': grid_steps1, 'N2': grid_steps2}, env, 'grid_{N1}_{N2}')
+                      'N1': grid_steps1, 'N2': grid_steps2},
+                      env, env_name, 'grid_{N1}_{N2}')
     generate_and_save(generate_rand_angles, {
                       'N': rand_count}, env, env_name, 'rand_{N}')
 
