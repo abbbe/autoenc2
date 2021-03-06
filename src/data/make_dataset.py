@@ -37,13 +37,15 @@ def generate_grid_angles(params):
     a2s = np.linspace(-1., 1., N2)
 
     N = N1 * N2
-    angles = np.zeros((N, 2))
+    angles = np.zeros((2*N, 2))
 
     i = 0
     for i1 in range(N1):
         for i2 in range(N2):
             angles[i] = [a1s[i1], a2s[i2]]
-            i += 1
+            angles[i + 1] = [a2s[i2], a1s[i1]]
+            i += 2
+
     return angles
 
 
@@ -91,12 +93,11 @@ def generate_and_save(gen_method, params, env, env_name, name_template):
 
 
 @click.command()
-# @click.argument('input_filepath', type=click.Path(exists=True))
-# @click.argument('output_filepath', type=click.Path())
+# TODO: turn this tool into per-environment dataset configurator/generator
 @click.option('--linspaced_steps', default=100, type=click.IntRange(min=1))
 @click.option('--rand_count', default=15000, type=click.IntRange(min=1))
-@click.option('--grid_steps1', default=100, type=click.IntRange(min=1))
-@click.option('--grid_steps2', default=1000, type=click.IntRange(min=1))
+@click.option('--grid_steps1', default=20, type=click.IntRange(min=1))
+@click.option('--grid_steps2', default=500, type=click.IntRange(min=1))
 @click.argument('env_name', type=click.Choice(get_env_names()), required=True)
 def main(env_name, linspaced_steps, rand_count, grid_steps1, grid_steps2):
     """ Generates angles/images datasets for given env

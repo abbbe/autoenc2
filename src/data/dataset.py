@@ -34,6 +34,6 @@ def load_datasets(env_name):
 
     train = load_dataset(get_dataset_fname(env_name, 'rand_15000'))
     test = load_dataset(get_dataset_fname(env_name, 'rand_1000'))
-    grid = load_dataset(get_dataset_fname(env_name, 'grid_100_1000'))
+    grid = load_dataset(get_dataset_fname(env_name, 'grid_20_500'))
 
     return {'train': train, 'test': test, 'grid': grid}
