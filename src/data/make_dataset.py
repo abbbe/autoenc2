@@ -6,9 +6,14 @@ from dotenv import find_dotenv, load_dotenv
 
 
 @click.command()
-@click.argument('input_filepath', type=click.Path(exists=True))
-@click.argument('output_filepath', type=click.Path())
-def main(input_filepath, output_filepath):
+#@click.argument('input_filepath', type=click.Path(exists=True))
+#@click.argument('output_filepath', type=click.Path())
+@click.argument('env', type=click.Choice(['myballs', 'gymarm']), required=True)
+@click.argument('gen', type=click.Choice(['rand', 'grid, linspaced']), required=True)
+@click.argument('n1', type=click.IntRange(min=1), required=True)
+@click.argument('n2', type=click.IntRange(min=1), required=False)
+
+def main(env, gen, n1, n2): #input_filepath, output_filepath):
     """ Runs data processing scripts to turn raw data from (../raw) into
         cleaned data ready to be analyzed (saved in ../processed).
     """
