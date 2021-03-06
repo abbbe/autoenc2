@@ -1,7 +1,13 @@
 autoenc2
 ==============================
 
-Recover disentangled latent space of series manipulator
+Recover disentangled latent space of series manipulator from images
+
+Installation:
+```
+conda create -n autoenc2 python=3.6
+pip install -r requirements.txt
+```
 
 Project Organization
 ------------

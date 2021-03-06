@@ -2,6 +2,10 @@ import sys
 
 REQUIRED_PYTHON = "python3"
 
+from tensorflow.python.client import device_lib
+def get_available_gpus():
+    local_device_protos = device_lib.list_local_devices()
+    return [x.name for x in local_device_protos if x.device_type == 'GPU']
 
 def main():
     system_major = sys.version_info.major
@@ -17,6 +21,8 @@ def main():
         raise TypeError(
             "This project requires Python {}. Found: Python {}".format(
                 required_major, sys.version))
+    elif len(get_available_gpus()) == 0:
+        raise TypeError("No GPU found")
     else:
         print(">>> Development environment passes all tests!")
 
