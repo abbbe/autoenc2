@@ -89,9 +89,9 @@ def generate_and_save(gen_method, params, env, name_template):
     #    print("'%s' exists, skipping" % df_name)
     #    #return
 
-    logger.info("Generating '%s' ..." % name)
-
     angles = gen_method(params)
+    logger.info("Generating '%d' datapoints for '%s' ..." % (datapoints, name))
+
     images = generate_images(env, angles)
 
     save_dataset(name, angles, images)
