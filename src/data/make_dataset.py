@@ -7,6 +7,8 @@ import os
 import numpy as np
 
 from src.config import processed_data_dir, project_dir
+from src.data.dataset import save_dataset
+
 from src.envs.myenv import TwoBallsEnv
 
 logger = logging.getLogger(__name__)
@@ -67,30 +69,24 @@ def generate_images(env, angles):
     return images
 
 
-def save_dataset(name, angles, images):
-    fname = os.path.join(processed_data_dir, ("%s.npz" % name))
-    logger.info("%d datapoints generated, saving in %s" %
-                (angles.shape[0], fname))
-    np.savez(fname, angles=angles, images=images)
-
-
-def generate_and_save(gen_method, params, env, name_template):
+def generate_and_save(gen_method, params, env, env_name, name_template):
     """
     Generates angles using given 'gen_method' with given 'params'
     Uses given 'env' to produce images corresponding to these angles
     Saves angles and images in npz file name formatted with the same 'params'
     """
-    name = name_template.format(**params)
+    dataset_name = name_template.format(**params)
     # if df_name in store:
     #    print("'%s' exists, skipping" % df_name)
     #    #return
 
     angles = gen_method(params)
-    logger.info("Generating '%d' datapoints for '%s' ..." % (datapoints, name))
+    n_datapoints = angles.shape[0]
+    logger.info("Generating '%d' datapoints for '%s' ..." % (n_datapoints, dataset_name))
 
     images = generate_images(env, angles)
 
-    save_dataset(name, angles, images)
+    save_dataset(env_name, dataset_name, angles, images)
 
 
 @click.command()
@@ -116,7 +112,7 @@ def main(env_name, linspaced_steps, rand_count, grid_steps1, grid_steps2):
     generate_and_save(generate_grid_angles, {
                       'N1': grid_steps1, 'N2': grid_steps2}, env, 'grid_{N1}_{N2}')
     generate_and_save(generate_rand_angles, {
-                      'N': rand_count}, env, 'rand_{N}')
+                      'N': rand_count}, env, env_name, 'rand_{N}')
 
 
 if __name__ == '__main__':
