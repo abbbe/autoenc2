@@ -1,17 +1,13 @@
 # -*- coding: utf-8 -*-
 import click
 import logging
-from pathlib import Path
 from dotenv import find_dotenv, load_dotenv
 
 import os
 import numpy as np
 
-from src.config import PROCESSED_DATA_DIR
+from src.config import processed_data_dir, project_dir
 from src.envs.myenv import TwoBallsEnv
-
-project_dir = Path(__file__).resolve().parents[2]
-processed_data_dir = os.path.join(project_dir, PROCESSED_DATA_DIR)
 
 logger = logging.getLogger(__name__)
 

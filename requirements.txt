@@ -14,7 +14,8 @@ tensorflow>=2
 pygame
 gym
 scikit-image
+jupyterlab
 
 
 # dev
-autopep3
+autopep8

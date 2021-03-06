@@ -1,6 +1,11 @@
 import os
+from pathlib import Path
 
 DATA_DIR = "data"
+PROCESSED_DATA_DIR = "processed"
+OUTPUT_DATA_DIR = "output"
 
-PROCESSED_DATA_DIR = os.path.join(DATA_DIR, "processed")
-OUTPUT_DATA_DIR = os.path.join(DATA_DIR, "output")
+project_dir = Path(__file__).resolve().parents[1]
+data_dir = os.path.join(project_dir, DATA_DIR)
+processed_data_dir = os.path.join(data_dir, PROCESSED_DATA_DIR)
+output_data_dir = os.path.join(data_dir, OUTPUT_DATA_DIR)
