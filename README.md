@@ -6,8 +6,14 @@ Recover disentangled latent space of series manipulator from images
 Installation:
 ```
 conda create -n autoenc2 python=3.6
+    or (with nodejs for a dev environment - dependency of JupyterLab)
+conda create -n autoenc2 python=3.6 nodejs
 pip install -r requirements.txt
 ```
+
+* src/data/make_dataset.py - generate datasets (angles[] -> images[]) files
+* notebooks/datasets.ipynb - load and visualize the datasets
+* src/models/train_model.py - train the models
 
 Project Organization
 ------------
