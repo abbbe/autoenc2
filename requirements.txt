@@ -19,3 +19,4 @@ jupyterlab
 
 # dev
 autopep8
+nbdime
