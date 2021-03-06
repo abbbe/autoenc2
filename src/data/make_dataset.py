@@ -7,7 +7,7 @@ import os
 import numpy as np
 
 from src.config import processed_data_dir, project_dir
-from src.data.dataset import save_dataset
+from src.data.dataset import save_dataset, get_dataset_fname
 from src.envs import get_env_names, load_env
 
 logger = logging.getLogger(__name__)
@@ -75,9 +75,10 @@ def generate_and_save(gen_method, params, env, env_name, name_template):
     Saves angles and images in npz file name formatted with the same 'params'
     """
     dataset_name = name_template.format(**params)
-    # if df_name in store:
-    #    print("'%s' exists, skipping" % df_name)
-    #    #return
+    fname = get_dataset_fname(env_name, dataset_name)
+    if os.path.exists(fname):
+        logger.error("File %s exists, skipping dataset" % fname)
+        return
 
     angles = gen_method(params)
     n_datapoints = angles.shape[0]
@@ -86,14 +87,14 @@ def generate_and_save(gen_method, params, env, env_name, name_template):
 
     images = generate_images(env, angles)
 
-    save_dataset(env_name, dataset_name, angles, images)
+    save_dataset(fname, angles, images)
 
 
 @click.command()
 # @click.argument('input_filepath', type=click.Path(exists=True))
 # @click.argument('output_filepath', type=click.Path())
 @click.option('--linspaced_steps', default=100, type=click.IntRange(min=1))
-@click.option('--rand_count', default=1000, type=click.IntRange(min=1))
+@click.option('--rand_count', default=15000, type=click.IntRange(min=1))
 @click.option('--grid_steps1', default=100, type=click.IntRange(min=1))
 @click.option('--grid_steps2', default=1000, type=click.IntRange(min=1))
 @click.argument('env_name', type=click.Choice(get_env_names()), required=True)
@@ -113,9 +114,6 @@ def main(env_name, linspaced_steps, rand_count, grid_steps1, grid_steps2):
 
 
 if __name__ == '__main__':
-    log_fmt = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-    logging.basicConfig(level=logging.INFO, format=log_fmt)
-
     # find .env automagically by walking up directories until it's found, then
     # load up the .env entries as environment variables
     load_dotenv(find_dotenv())
