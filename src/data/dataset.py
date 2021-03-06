@@ -24,6 +24,7 @@ def load_dataset(env_name, dataset_name):
     fname = get_dataset_fname(env_name, dataset_name)
     logger.info("Loading %s ..." % fname)
     dataset = np.load(fname)
+    dataset = dict(dataset) # defeat lazy loading
     assert(dataset['angles'].shape[0] == dataset['images'].shape[0])
     logger.info("Loaded %d datapoints from %s" %
                 (dataset['angles'].shape[0], fname))
