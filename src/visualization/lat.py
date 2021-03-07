@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
 from matplotlib import animation
+import logging
+animation._log.setLevel(logging.ERROR)
 
 from src.visualization.dataset import _clean_ax, _imshow
 
